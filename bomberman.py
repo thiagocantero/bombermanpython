@@ -13,7 +13,7 @@ class Bomberman:
         self.screen_position = (32,32)
         self.index_sprite = 0
         self.is_moving = False 
-        self.itens = []    
+        self.items = []    
 
     def __loadSprites__(self):
         sprites_image_filename = self.__sprites[0]
@@ -94,9 +94,9 @@ class Bomberman:
             self.__setBomb__()
         
     def tryItens(self):
-        for item in self.itens
+        for item in self.items
             if item.tryFinish():
-                self.itens.remove(item)
+                self.items.remove(item)
         
     def paint(self,screen) :
         screen.blit(self.sprites[self.direction][self.index_sprite],self.screen_position)
