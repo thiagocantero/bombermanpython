@@ -2,11 +2,11 @@
 from constants import *
 
 MAPS = dict()
-MAPS['Map01'] = {'background':'imagem/map/map01/background01.jpeg','sprites':('imagem/map/map01/mapa01.jpeg',1),
+MAPS['Map01'] = {'background':'imagem/map/map01/background01.jpeg','sprites':'imagem/map/map01/mapa01.jpeg',
 'map':[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]}
 
-MAPS['Map02'] = {'background':'imagem/map/map02/background02.jpeg','sprites':('imagem/map/map02/mapa02.jpeg',2),
-'map':[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,2,0,0,2,0,0,2,0,0,2,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,2,0,0,2,0,0,2,0,0,2,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,2,0,0,2,0,0,2,0,0,2,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,2,0,0,2,0,0,2,0,0,2,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]}
+MAPS['Map02'] = {'background':'imagem/map/map02/background02.jpeg','sprites':'imagem/map/map02/mapa02.jpeg',
+'map':[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]}
 
 class Map :
     '''Define o mapa carregado na fase'''
@@ -15,18 +15,33 @@ class Map :
         self.__background = MAPS[map_name]['background']
         self.__sprites = MAPS[map_name]['sprites']
         self.__map = MAPS[map_name]['map']
+        self.boxes = self.__createBoxes__()
         self.background = self.__loadBackground__()
         self.sprites = self.__loadSprites__()
+        
+    def __createBoxes__(self) :
+        '''Posiciona na tela as caixas destrutíveis'''
+        import random
+        i = 0
+        while i < len(self.__map) :
+            if self.__map[i] == 0 :
+                self.__map[i] = 2 #DESTR_BOX
+            i += 1
 
+        r = random.Random()
+        for i in range(0,6) :
+            pos = int(r.random() * 10000) % len(self.__map)
+            self.__map[pos] = 0 #GROUND
+            
+        
     def __loadBackground__(self) :
         '''Carrega a imagem de fundo do mapa e a retorna'''
         return pygame.image.load(self.__background).convert()
         
-
     def __loadSprites__(self) :
         '''Carrega cada uma das imagens do mapa e retorna uma lista com essas imagens'''
-        sprites_image_filename = self.__sprites[0]
-        sprites_image_quantity = self.__sprites[1]
+        sprites_image_filename = self.__sprites
+        sprites_image_quantity = 2
         
         sprites_image = pygame.image.load(sprites_image_filename).convert_alpha()
         sprites = list()

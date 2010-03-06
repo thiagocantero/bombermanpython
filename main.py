@@ -18,6 +18,9 @@ def main() :
     scenario = Scenario('Map01')
     monsters = [Monster('Monster04',(192,192))]
     bomberman = Bomberman()
+    
+    #scenario.freeMap_Monsters(monsters)
+    #scenario.freeMap_Bomberman(bomberman)
 
     while True :
 
