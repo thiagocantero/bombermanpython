@@ -6,6 +6,7 @@ from sys import exit
 from constants import *
 from scenario import Scenario
 from monster import Monster
+from bomberman import Bomberman
 
 def main() :
     pygame.init()
@@ -16,6 +17,7 @@ def main() :
 
     scenario = Scenario('Map01')
     monsters = [Monster('Monster04',(192,192))]
+    bomberman = Bomberman()
 
     while True :
 
@@ -30,7 +32,10 @@ def main() :
         for monster in monsters :
             monster.move()
             monster.paint(screen)
-            
+        
+        bomberman.move()
+        bomberman.paint(screen)
+        
         pygame.display.update()
         
 if __name__ == '__main__' :
