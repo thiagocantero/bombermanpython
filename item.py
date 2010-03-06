@@ -13,6 +13,7 @@ class Item :
         self.__time_start = None
         self.__time_duration = time_duration
         self.__position = screen_position
+        self.visible = False
         self.bomberman = None
         
     def __loadSprite__(self) :
@@ -35,6 +36,10 @@ class Item :
         '''Inicia o item no bomberman'''
         self.__time_start = None #getTime(), por exemplo
         self.__setEffect__(self)
+        
+    def isVisible(self) :
+        '''Retorna True se um item está visívle apara o jogador'''
+        return self.visible       
         
     def paint(self, screen):
         '''Desenha o item na tela'''
