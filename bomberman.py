@@ -51,11 +51,12 @@ class Bomberman:
             pos = y
             width_height = SPRITE_H
         
+        self.index_sprite += 1
+        self.index_sprite %= len(self.sprites[self.direction])   
+        
         if pos % width_height == 0 :
             self.is_moving = False
-            
-        self.index_sprite += 1
-        self.index_sprite %= len(self.sprites[self.direction])          
+            self.index_sprite = 0
             
         self.screen_position = (x,y)
         
