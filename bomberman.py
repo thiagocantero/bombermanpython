@@ -94,7 +94,7 @@ class Bomberman:
             self.__setBomb__()
         
     def tryItens(self):
-        for item in self.items
+        for item in self.items:
             if item.tryFinish():
                 self.items.remove(item)
         
