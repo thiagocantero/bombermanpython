@@ -33,7 +33,7 @@ def main() :
             monster.move()
             monster.paint(screen)
         
-        bomberman.move()
+        bomberman.process()
         bomberman.paint(screen)
         
         pygame.display.update()

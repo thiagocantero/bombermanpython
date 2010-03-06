@@ -12,7 +12,8 @@ class Bomberman:
         self.direction = D
         self.screen_position = (32,32)
         self.index_sprite = 0
-        self.is_moving = False  
+        self.is_moving = False 
+        self.itens = []    
 
     def __loadSprites__(self):
         sprites_image_filename = self.__sprites[0]
@@ -61,7 +62,7 @@ class Bomberman:
         self.screen_position = (x,y)
         
 
-    def move(self):
+    def process(self):
         pressed = pygame.key.get_pressed()
         
         x,y = self.screen_position
@@ -92,7 +93,10 @@ class Bomberman:
         if pressed[K_SPACE]:
             self.__setBomb__()
         
-        
+    def tryItens(self):
+        for item in self.itens
+            if item.tryFinish():
+                self.itens.remove(item)
         
     def paint(self,screen) :
         screen.blit(self.sprites[self.direction][self.index_sprite],self.screen_position)
