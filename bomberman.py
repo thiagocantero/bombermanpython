@@ -1,139 +1,100 @@
 import pygame
 from pygame.locals import *
 from pygame import Rect
-from sys import exit
+from constants import *
 
-DIRECAO_CIMA = 1
-DIRECAO_BAIXO = 2
-DIRECAO_DIREITA = 3
-DIRECAO_ESQUERDA = 4
+class Bomberman:
+    def __init__(self):
+        self.__sprites = ['imagem/bomberman.png', (3,3,3,3)]
+        self.sprites = self.__loadSprites__()
+        self.index_moviment = 0
+        self.velocity = 2
+        self.direction = D
+        self.screen_position = (32,32)
+        self.index_sprite = 0
+        self.is_moving = False  
 
-SPRITE_VELX = SPRITE_VELY = 4
-
-SPRITE_POS_CIMA = 0
-SPRITE_POS_BAIXO = 192
-SPRITE_POS_ESQUERDA = 288
-SPRITE_POS_DIREITA = 96
-
-SPRITE_TAM = (32,32)
-
-sprite_passo = 0
-sprite_pos = SPRITE_POS_CIMA
-
-def desenhaGrade(surface) :
-    for i in range(0, 16) :
-        pygame.draw.line(surface, pygame.Color(0, 0, 0, 0), (i*32, 0), (i*32, 16*32), 1)
+    def __loadSprites__(self):
+        sprites_image_filename = self.__sprites[0]
+        sprites_image_quantity = self.__sprites[1]
         
-    for i in range(0, 16) :
-        pygame.draw.line(surface, pygame.Color(0, 0, 0, 0), (0, i*32), (16*32, i*32), 1)        
-    
-
-pygame.init()
-pygame.key.set_repeat(True)
-
-background_image_filename = 'imagem/map/map01/background01.jpeg'
-char_image_filename = 'imagem/bomberman.png'
-
-screen = pygame.display.set_mode((512,512), 0, 32)
-pygame.display.set_caption('Bomberman')
-
-background_image = pygame.image.load(background_image_filename).convert()
-char_image = pygame.image.load(char_image_filename).convert_alpha()
-
-clock = pygame.time.Clock()
-
-sprite_rect = Rect(32,0,32,32)
-
-char_direction = DIRECAO_CIMA
-char_moving = False
-x = y = 0
-
-while True :
-
-    for event in pygame.event.get() :
-        if event.type == QUIT :
-            exit(0)
-        elif event.type == KEYDOWN :
-            if not char_moving :
-                if event.key == K_UP :
-                    char_direction = DIRECAO_CIMA
-                    char_moving = True
-                elif event.key == K_DOWN :
-                    char_direction = DIRECAO_BAIXO
-                    char_moving = True
-                elif event.key == K_LEFT :
-                    char_direction = DIRECAO_ESQUERDA
-                    char_moving = True
-                elif event.key == K_RIGHT :
-                    char_direction = DIRECAO_DIREITA
-                    char_moving = True
-
-    time_passed = clock.tick(12)
-      
+        sprites_image = pygame.image.load(sprites_image_filename).convert_alpha()
+        sprites = {U:list(), R:list(), D:list(), L:list()}
         
-
-    if char_moving :
-        if char_direction == DIRECAO_CIMA :
-            y -= SPRITE_VELY
-            sprite_pos = SPRITE_POS_CIMA
-            sprite_rect = Rect((sprite_passo*32+sprite_pos,0),SPRITE_TAM)
-            sprite_passo += 1
-            sprite_passo %= 3
-            if y%32 == 0 :
-                char_moving = False
-        elif char_direction == DIRECAO_BAIXO :
-            y += SPRITE_VELY
-            sprite_pos = SPRITE_POS_BAIXO
-            sprite_rect = Rect((sprite_passo*32+sprite_pos,0),SPRITE_TAM)
-            sprite_passo += 1
-            sprite_passo %= 3
-            if y%32 == 0 :
-                char_moving = False
-                            
-        elif char_direction == DIRECAO_ESQUERDA :
-            x -= SPRITE_VELX
-            sprite_pos = SPRITE_POS_ESQUERDA
-            sprite_rect = Rect((sprite_passo*32+sprite_pos,0),SPRITE_TAM)
-            sprite_passo += 1
-            sprite_passo %= 3
-            if x%32 == 0 :
-                char_moving = False
-        elif char_direction == DIRECAO_DIREITA :
-            x += SPRITE_VELX
-            sprite_pos = SPRITE_POS_DIREITA
-            sprite_rect = Rect((sprite_passo*32+sprite_pos,0),SPRITE_TAM)
-            sprite_passo += 1
-            sprite_passo %= 3
-            if x%32 == 0 :
-                char_moving = False
-    else:
-        sprite_rect = Rect((sprite_pos,0),SPRITE_TAM)
-      
-      
-      
-    if x < 0 :
-        x = 0
-        char_moving = False
-    if x > 512-32 :
-        x = 512-32
-        char_moving = False
-    if y < 0 :
-        y = 0
-        char_moving = False
-    if y > 512-32 :
-        y = 512-32
-        char_moving = False
+        tot = 0
+        for i in range(0,sprites_image_quantity[0]) :
+            sprites[U].append(sprites_image.subsurface(pygame.Rect(i*SPRITE_W,0,SPRITE_W,SPRITE_H)))
+        tot += sprites_image_quantity[0]
+        for i in range(0,sprites_image_quantity[1]) :
+            sprites[R].append(sprites_image.subsurface(pygame.Rect((i+tot)*SPRITE_W,0,SPRITE_W,SPRITE_H)))
+        tot += sprites_image_quantity[1]
+        for i in range(0,sprites_image_quantity[2]) :
+            sprites[D].append(sprites_image.subsurface(pygame.Rect((i+tot)*SPRITE_W,0,SPRITE_W,SPRITE_H)))
+        tot += sprites_image_quantity[2]
+        for i in range(0,sprites_image_quantity[3]) :
+            sprites[L].append(sprites_image.subsurface(pygame.Rect((i+tot)*SPRITE_W,0,SPRITE_W,SPRITE_H)))            
+        tot += sprites_image_quantity[3]
         
+        return sprites
+
+
+    def  __updateAttr__(self, axis, mult):
+        x, y = self.screen_position
+        self.is_moving = True
+        
+        if axis == AXIS_X :
+            x += mult * self.velocity
+            pos = x
+            width_height = SPRITE_W
+        elif axis == AXIS_Y :
+            y += mult * self.velocity
+            pos = y
+            width_height = SPRITE_H
+        
+        if pos % width_height == 0 :
+            self.is_moving = False
             
+        self.index_sprite += 1
+        self.index_sprite %= len(self.sprites[self.direction])          
+            
+        self.screen_position = (x,y)
+        
 
-    
-    sprite = char_image.subsurface(sprite_rect)
-    
-    screen.blit(background_image,(0,0))
-    desenhaGrade(screen)
-    screen.blit(sprite,(x,y))
+    def move(self):
+        pressed = pygame.key.get_pressed()
+        
+        x,y = self.screen_position
+        
+        if self.is_moving:
+            if self.direction == U:
+                self.__updateAttr__(AXIS_Y, -1)
+            elif self.direction == D:
+                self.__updateAttr__(AXIS_Y, 1)
+            elif self.direction == R:
+                self.__updateAttr__(AXIS_X, 1)
+            elif self.direction == L:
+                self.__updateAttr__(AXIS_X, -1)
+        else:
+			if pressed[K_UP]:
+				self.direction = U
+				self.__updateAttr__(AXIS_Y, -1)
+			elif pressed[K_DOWN]:
+				self.direction = D
+				self.__updateAttr__(AXIS_Y, 1)
+			elif pressed[K_RIGHT]:
+				self.direction = R
+				self.__updateAttr__(AXIS_X, 1)
+			elif pressed[K_LEFT]:
+				self.direction = L
+				self.__updateAttr__(AXIS_X, -1)
+        
+        if pressed[K_SPACE]:
+            self.__setBomb__()
+        
+        
+        
+    def paint(self,screen) :
+        screen.blit(self.sprites[self.direction][self.index_sprite],self.screen_position)
 
-    time_passed = clock.tick(30)
-
-    pygame.display.update()
-
+    def __setBomb__(self):
+        print 'Boooomba!!'
