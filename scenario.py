@@ -109,8 +109,9 @@ class Scenario :
     
         array_pos_new = matrixToArray(matrix_pos_new[0],matrix_pos_new[1])
         allow = False
-        if self.virtual_map[array_pos_new] is (GROUND or MONSTER_ROUTE):
+        if self.virtual_map[array_pos_new] == GROUND or self.virtual_map[array_pos_new] == MONSTER_ROUTE:
             allow = True
+            print allow
             self.virtual_map[array_pos_current] = GROUND
             self.virtual_map[array_pos_new] = entity.constant
             
