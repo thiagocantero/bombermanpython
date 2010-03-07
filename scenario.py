@@ -99,19 +99,23 @@ class Scenario :
         array_pos_current = matrixToArray(matrix_pos_current[0],matrix_pos_current[1])
         
         if direction == U:
-            matrix_pos_new = (matrix_pos_current[0]-1,matrix_pos_current[1])
-        elif direction == D:
-            matrix_pos_new = (matrix_pos_current[0]+1,matrix_pos_current[1])
-        elif direction == R:
-            matrix_pos_new = (matrix_pos_current[0],matrix_pos_current[1]+1)
-        elif direction == L:
             matrix_pos_new = (matrix_pos_current[0],matrix_pos_current[1]-1)
+        elif direction == D:
+            matrix_pos_new = (matrix_pos_current[0],matrix_pos_current[1]+1)
+        elif direction == R:
+            matrix_pos_new = (matrix_pos_current[0]+1,matrix_pos_current[1])
+        elif direction == L:
+            matrix_pos_new = (matrix_pos_current[0]-1,matrix_pos_current[1])
     
         array_pos_new = matrixToArray(matrix_pos_new[0],matrix_pos_new[1])
+        
+        print "I'm in: ","(",matrix_pos_current[0],",",matrix_pos_current[1],")"
+        print "I'm going to: ","(",matrix_pos_new[0],",",matrix_pos_new[1],")"
+        print "There's a ",self.virtual_map[array_pos_new]
+        
         allow = False
         if self.virtual_map[array_pos_new] == GROUND or self.virtual_map[array_pos_new] == MONSTER_ROUTE:
             allow = True
-            print allow
             self.virtual_map[array_pos_current] = GROUND
             self.virtual_map[array_pos_new] = entity.constant
             

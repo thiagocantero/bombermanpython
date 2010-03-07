@@ -39,7 +39,7 @@ def arrayToMatrix(pos) :
     return (x, y)
     
 def matrixToArray(x, y) :
-    return x * SCENARIO_W + y
+    return y * SCENARIO_W + x
 
 def matrixToScreen(x, y) :
     return (x*SPRITE_W, y*SPRITE_H)
