@@ -74,7 +74,8 @@ class Scenario :
         
         def setGround():
             array_pos = matrixToArray(matrix_pos_cruz[0],matrix_pos_cruz[1])
-            self.virtual_map[array_pos] = GROUND
+            if self.virtual_map[array_pos] != UNDEST_BOX:
+                self.virtual_map[array_pos] = GROUND
             self.map.destroyBox(array_pos)
     
         matrix_pos = screenToMatrix(bomberman_pos[0],bomberman_pos[1])
