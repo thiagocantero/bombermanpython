@@ -116,10 +116,20 @@ class Scenario :
         allow = False
         if self.virtual_map[array_pos_new] == GROUND or self.virtual_map[array_pos_new] == MONSTER_ROUTE:
             allow = True
-            self.virtual_map[array_pos_current] = GROUND
+            if self.virtual_map[array_pos_current] == entity.constant:
+                self.virtual_map[array_pos_current] = GROUND
             self.virtual_map[array_pos_new] = entity.constant
             
         return allow
+    
+    def setBomb(self, bomb_position):
+        bomb_array = matrixToArray(bomb_position[0],bomb_position[1])
+        self.virtual_map[bomb_array] = BOMB
+    
+    
+    def unsetBomb(self, bomb_position):
+        
+    
     
     def paint(self, screen, draw_grid=False):
         '''Desenha o cenário na tela'''

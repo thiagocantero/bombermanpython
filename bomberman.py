@@ -114,6 +114,7 @@ class Bomberman:
     def __setBomb__(self):
         if len(self.bombs) < self.max_bombs :
             bomb_pos = screenToMatrix(self.screen_position[0], self.screen_position[1])
+            self.scenario.setBomb(bomb_pos)
             self.bombs.append(Bomb(bomb_pos))
             print 'Boooomba!!'
             
