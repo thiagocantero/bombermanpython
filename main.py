@@ -17,13 +17,6 @@ def main() :
 
     scenario = Scenario('Map01')
     bomberman = Bomberman()
-    
-    
-    for y in range(0, SCENARIO_H) :
-        for x in range(0,SCENARIO_W):
-            pos = y * SCENARIO_W + x
-            print scenario.virtual_map[pos],
-        print '\n'    
 
     while True :
 
@@ -33,14 +26,11 @@ def main() :
 
         time_passed = clock.tick(FPS)
         
-        
         scenario.process()
-        scenario.paint(screen,draw_grid=True)
+        scenario.paint(screen,draw_grid=False)
 
-        
-        
-        #bomberman.process()
-        #bomberman.paint(screen)
+        bomberman.process()
+        bomberman.paint(screen)
         
         pygame.display.update()
         

@@ -31,3 +31,18 @@ BOMB = 6
 EXPLOSION = 7
 
 ITEM_VELOCITY = 10
+
+
+def arrayToMatrix(pos) :
+    linha = pos % SCENARIO_W
+    coluna = pos / SCENARIO_H
+    return (x, y)
+    
+def matrixToArray(x, y) :
+    return y * SCENARIO_W + x
+
+def matrixToScreen(x, y) :
+    return (x*SPRITE_W, y*SPRITE_H)
+    
+def screenToMatrix(x, y)
+    return (x//SPRITE_W, y//SPRITE_H)

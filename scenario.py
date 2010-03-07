@@ -67,7 +67,7 @@ class Scenario :
             
     def process(self):
         for monster in self.monsters :
-            monster.move()
+            monster.process()
             
             
     def paint(self, screen, draw_grid=False):

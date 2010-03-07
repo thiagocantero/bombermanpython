@@ -70,7 +70,7 @@ class Monster :
             
         self.screen_position = (x,y)
         
-    def move(self) :
+    def process(self) :
         '''Movimenta o monstro'''
         if self.direction == U :
             self.__updateAttr__(AXIS_Y, -1)
@@ -89,6 +89,7 @@ class Monster :
         screen.blit(self.sprites[self.direction][self.index_sprite],self.screen_position)
         
     def makeRoute(self, x_matrix, y_matrix) :
+        '''Retorna uma lista com as tuplas correspondentes à rota do monstro. As coordenadas estão relacionadas à posição da matriz'''
         route = set()
         for moviment in self.moviments :
             if moviment == U :

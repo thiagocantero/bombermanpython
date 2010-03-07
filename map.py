@@ -29,9 +29,11 @@ class Map :
             i += 1
 
         r = random.Random()
-        for i in range(0,6) :
+        i = 0
+        while i < 6 :
             pos = int(r.random() * 10000) % len(self.__map)
-            self.__map[pos] = GROUND
+            if self.destroyBox(pos) :
+                i += 1
             
         
     def __loadBackground__(self) :
@@ -62,8 +64,11 @@ class Map :
         return self.__map[:]
     
     def destroyBox(self, pos) :
+        '''Destrói uma caixa destrutível (remove do mapa) e retorna True se operação realizada com sucesso'''
         if self.__map[pos] == DEST_BOX :
             self.__map[pos] = GROUND
+            return True
+        return False
         
     def paint(self,screen,draw_grid=False) :
         '''Exibe na tela as imagens do mapa'''
@@ -73,8 +78,8 @@ class Map :
         i = 0
         while i < len(self.__map) :
             s = self.__map[i]
-            linha = i / SCENARIO_W
-            coluna = i % SCENARIO_W
+            linha = i % SCENARIO_W
+            coluna = i / SCENARIO_W
             if s > 0 :
                 screen.blit(self.sprites[s-1],(linha*SPRITE_W,coluna*SPRITE_H))
             i += 1
