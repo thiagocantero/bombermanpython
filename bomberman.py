@@ -17,6 +17,8 @@ class Bomberman:
         self.constant = BOMBERMAN
         self.scenario = scenario
         self.scenario.freeRoomBomberman(self.screen_position)
+        self.maxBomb = 1
+        self.bombs = []
 
     def __loadSprites__(self):
         sprites_image_filename = self.__sprites[0]
