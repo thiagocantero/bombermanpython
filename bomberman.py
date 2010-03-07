@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 from pygame import Rect
 from constants import *
+from bomb import Bomb
 
 class Bomberman:
     def __init__(self, scenario):
@@ -17,7 +18,7 @@ class Bomberman:
         self.constant = BOMBERMAN
         self.scenario = scenario
         self.scenario.freeRoomBomberman(self.screen_position)
-        self.maxBomb = 1
+        self.max_bombs = 1
         self.bombs = []
 
     def __loadSprites__(self):
@@ -97,6 +98,8 @@ class Bomberman:
         
         if pressed[K_SPACE]:
             self.__setBomb__()
+            
+        self.__processBomb__()
         
     def tryItens(self):
         for item in self.items:
@@ -105,6 +108,17 @@ class Bomberman:
         
     def paint(self,screen) :
         screen.blit(self.sprites[self.direction][self.index_sprite],self.screen_position)
+        for bomb in self.bombs :
+            bomb.paint(screen)
 
     def __setBomb__(self):
-        print 'Boooomba!!'
+        if len(self.bombs) < self.max_bombs :
+            bomb_pos = screenToMatrix(self.screen_position[0], self.screen_position[1])
+            self.bombs.append(Bomb(bomb_pos))
+            print 'Boooomba!!'
+            
+    def __processBomb__(self) :
+        for bomb in self.bombs :
+            bomb.process()
+            if bomb.isFinished() :
+                self.bombs.remove(bomb)
