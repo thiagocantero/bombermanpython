@@ -20,7 +20,7 @@ class Monster :
         self.direction = self.moviments[self.index_moviment]
         self.index_sprite = 0
         self.screen_position = screen_position
-        self.is_moving = True
+        self.is_moving = False
         self.scenario = scenario
         self.constant = MONSTER
 
