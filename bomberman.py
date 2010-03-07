@@ -4,7 +4,7 @@ from pygame import Rect
 from constants import *
 
 class Bomberman:
-    def __init__(self):
+    def __init__(self, scenario):
         self.__sprites = ['imagem/bomberman.png', (3,3,3,3)]
         self.sprites = self.__loadSprites__()
         self.index_moviment = 0
@@ -13,7 +13,10 @@ class Bomberman:
         self.screen_position = (32,32)
         self.index_sprite = 0
         self.is_moving = False 
-        self.items = []    
+        self.items = []
+        self.constant = BOMBERMAN
+        self.scenario = scenario
+        self.scenario.freeRoomBomberman(self.screen_position)
 
     def __loadSprites__(self):
         sprites_image_filename = self.__sprites[0]
@@ -77,16 +80,16 @@ class Bomberman:
             elif self.direction == L:
                 self.__updateAttr__(AXIS_X, -1)
         else:
-			if pressed[K_UP]:
+			if pressed[K_UP] and self.scenario.canMove(U,self):
 				self.direction = U
 				self.__updateAttr__(AXIS_Y, -1)
-			elif pressed[K_DOWN]:
+			elif pressed[K_DOWN] and self.scenario.canMove(D,self):
 				self.direction = D
 				self.__updateAttr__(AXIS_Y, 1)
-			elif pressed[K_RIGHT]:
+			elif pressed[K_RIGHT] and self.scenario.canMove(R,self):
 				self.direction = R
 				self.__updateAttr__(AXIS_X, 1)
-			elif pressed[K_LEFT]:
+			elif pressed[K_LEFT] and self.scenario.canMove(L,self):
 				self.direction = L
 				self.__updateAttr__(AXIS_X, -1)
         

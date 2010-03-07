@@ -21,6 +21,7 @@ class Monster :
         self.index_sprite = 0
         self.screen_position = screen_position
         self.is_moving = True
+        self.constant = MONSTER
 
     def __loadSprites__(self) :
         '''Carrega os sprites dos monstros em um dicionário, onde cada chave guarda como valor uma lista contendo a sequência de sprites para a movimentação do monstro'''

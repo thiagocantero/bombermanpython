@@ -53,12 +53,12 @@ class Scenario :
                         break;
                         
                 if not hasException :
-                    self.virtual_map[pos_monster] = MONSTER
                     self.map.destroyBox(pos_monster)
                     for (x_route, y_route) in pos_route :
                         pos = matrixToArray(x_route,y_route)
                         self.virtual_map[pos] = MONSTER_ROUTE
                         self.map.destroyBox(pos)
+                    self.virtual_map[pos_monster] = MONSTER
 
                     placed_monsters += 1
                     monsters.append(m)                    
@@ -93,6 +93,27 @@ class Scenario :
         matrix_pos_cruz = (matrix_pos[0],matrix_pos[1]+1)
         setGround()
     
+    def canMove(self, direction, entity):
+        matrix_pos_current = screenToMatrix(entity.screen_position[0],entity.screen_position[1])
+        array_pos_current = matrixToArray(matrix_pos_current[0],matrix_pos_current[1])
+        
+        if direction == U:
+            matrix_pos_new = (matrix_pos_current[0]-1,matrix_pos_current[1])
+        elif direction == D:
+            matrix_pos_new = (matrix_pos_current[0]+1,matrix_pos_current[1])
+        elif direction == R:
+            matrix_pos_new = (matrix_pos_current[0],matrix_pos_current[1]+1)
+        elif direction == L:
+            matrix_pos_new = (matrix_pos_current[0],matrix_pos_current[1]-1)
+    
+        array_pos_new = matrixToArray(matrix_pos_new[0],matrix_pos_new[1])
+        allow = False
+        if self.virtual_map[array_pos_new] is (GROUND or MONSTER_ROUTE):
+            allow = True
+            self.virtual_map[array_pos_current] = GROUND
+            self.virtual_map[array_pos_new] = entity.constant
+            
+        return allow
     
     def paint(self, screen, draw_grid=False):
         '''Desenha o cenário na tela'''

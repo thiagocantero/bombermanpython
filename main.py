@@ -8,6 +8,13 @@ from scenario import Scenario
 from monster import Monster
 from bomberman import Bomberman
 
+def debug(scenario):
+    for i in range(0, SCENARIO_H) :
+        for j in range(0, SCENARIO_W) :
+            print scenario.virtual_map[matrixToArray(i, j)],
+        print '\n'
+ 
+
 def main() :
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_W,SCREEN_H), 0, 32)
@@ -16,9 +23,7 @@ def main() :
     clock = pygame.time.Clock()
 
     scenario = Scenario('Map01')
-    bomberman = Bomberman()
-
-    scenario.freeRoomBomberman(bomberman.screen_position)
+    bomberman = Bomberman(scenario)
 
     while True :
 
@@ -27,6 +32,8 @@ def main() :
                 exit(0)
             if event.type == KEYDOWN and event.key == K_ESCAPE:
                 exit(0)
+            if event.type == KEYDOWN and event.key == K_d:
+                debug(scenario)
 
         time_passed = clock.tick(FPS)
         
