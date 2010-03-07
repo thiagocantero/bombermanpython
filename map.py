@@ -1,4 +1,5 @@
 ﻿import pygame
+import random
 from constants import *
 
 MAPS = dict()
@@ -21,11 +22,10 @@ class Map :
         
     def __createBoxes__(self) :
         '''Posiciona na tela as caixas destrutíveis'''
-        import random
         i = 0
         while i < len(self.__map) :
             if self.__map[i] == 0 :
-                self.__map[i] = DESTR_BOX
+                self.__map[i] = DEST_BOX
             i += 1
 
         r = random.Random()
@@ -51,15 +51,19 @@ class Map :
         
     def __drawGrid__(self,surface) :
         '''Desenha grades na tela'''
-        for i in range(0, 16) :
+        for i in range(0, SCENARIO_W) :
             pygame.draw.line(surface, pygame.Color(0, 0, 0, 0), (i*SPRITE_W, 0), (i*SPRITE_W, SCREEN_H), 1)
         
-        for i in range(0, 16) :
+        for i in range(0, SCENARIO_H) :
             pygame.draw.line(surface, pygame.Color(0, 0, 0, 0), (0, i*SPRITE_H), (SCREEN_W, i*SPRITE_H), 1)           
             
     def getMap(self):
         '''Retorna uma cópia do mapa'''
         return self.__map[:]
+    
+    def destroyBox(self, pos) :
+        if self.__map[pos] == DEST_BOX :
+            self.__map[pos] = GROUND
         
     def paint(self,screen,draw_grid=False) :
         '''Exibe na tela as imagens do mapa'''
@@ -69,8 +73,8 @@ class Map :
         i = 0
         while i < len(self.__map) :
             s = self.__map[i]
-            linha = i / 16
-            coluna = i % 16
+            linha = i / SCENARIO_W
+            coluna = i % SCENARIO_W
             if s > 0 :
                 screen.blit(self.sprites[s-1],(linha*SPRITE_W,coluna*SPRITE_H))
             i += 1

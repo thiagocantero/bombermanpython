@@ -87,3 +87,20 @@ class Monster :
     def paint(self,screen) :
         '''Desenha na tela o monstro'''
         screen.blit(self.sprites[self.direction][self.index_sprite],self.screen_position)
+        
+    def makeRoute(self, x_matrix, y_matrix) :
+        route = set()
+        for moviment in self.moviments :
+            if moviment == U :
+                y_matrix -= 1
+                route.add((x_matrix, y_matrix))
+            elif moviment == D :
+                y_matrix += 1
+                route.add((x_matrix, y_matrix))
+            elif moviment == L :
+                x_matrix -= 1
+                route.add((x_matrix, y_matrix))
+            elif moviment == R :
+                x_matrix += 1
+                route.add((x_matrix, y_matrix))
+        return list(route)
