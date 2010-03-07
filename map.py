@@ -78,8 +78,7 @@ class Map :
         i = 0
         while i < len(self.__map) :
             s = self.__map[i]
-            linha = i % SCENARIO_W
-            coluna = i / SCENARIO_W
+            linha, coluna = arrayToScreen(i)
             if s > 0 :
-                screen.blit(self.sprites[s-1],(linha*SPRITE_W,coluna*SPRITE_H))
+                screen.blit(self.sprites[s-1],(linha,coluna))
             i += 1
