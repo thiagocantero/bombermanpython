@@ -52,6 +52,6 @@ def arrayToScreen(pos) :
     return matrixToScreen(x, y)
     
 def screenToArray(x, y) :
-    screenToMatrix(x, y)
+    x, y = screenToMatrix(x, y)
     return matrixToArray(x, y)    
     
