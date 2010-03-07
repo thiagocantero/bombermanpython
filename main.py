@@ -18,10 +18,14 @@ def main() :
     scenario = Scenario('Map01')
     bomberman = Bomberman()
 
+    scenario.freeRoomBomberman(bomberman.screen_position)
+
     while True :
 
         for event in pygame.event.get() :
             if event.type == QUIT :
+                exit(0)
+            if event.type == KEYDOWN and event.key == K_ESCAPE:
                 exit(0)
 
         time_passed = clock.tick(FPS)

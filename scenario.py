@@ -64,12 +64,36 @@ class Scenario :
                     monsters.append(m)                    
                     break;
         return monsters
-            
+    
+    
     def process(self):
         for monster in self.monsters :
             monster.process()
             
-            
+    def freeRoomBomberman(self,bomberman_pos):
+        
+        def setGround():
+            array_pos = matrixToArray(matrix_pos_cruz[0],matrix_pos_cruz[1])
+            self.virtual_map[array_pos] = GROUND
+            self.map.destroyBox(array_pos)
+    
+        matrix_pos = screenToMatrix(bomberman_pos[0],bomberman_pos[1])
+        
+        array_pos = matrixToArray(matrix_pos[0],matrix_pos[1])
+        self.virtual_map[array_pos] = BOMBERMAN
+        self.map.destroyBox(array_pos)
+        
+        #montando a cruz
+        matrix_pos_cruz = (matrix_pos[0]-1,matrix_pos[1])        
+        setGround()
+        matrix_pos_cruz = (matrix_pos[0]+1,matrix_pos[1])
+        setGround()
+        matrix_pos_cruz = (matrix_pos[0],matrix_pos[1]-1)
+        setGround()
+        matrix_pos_cruz = (matrix_pos[0],matrix_pos[1]+1)
+        setGround()
+    
+    
     def paint(self, screen, draw_grid=False):
         '''Desenha o cenário na tela'''
         self.map.paint(screen, draw_grid=True)
