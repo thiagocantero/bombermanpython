@@ -34,8 +34,8 @@ ITEM_VELOCITY = 10
 
 
 def arrayToMatrix(pos) :
-    linha = pos % SCENARIO_W
-    coluna = pos / SCENARIO_H
+    x = pos % SCENARIO_W
+    y = pos / SCENARIO_H
     return (x, y)
     
 def matrixToArray(x, y) :
@@ -44,7 +44,7 @@ def matrixToArray(x, y) :
 def matrixToScreen(x, y) :
     return (x*SPRITE_W, y*SPRITE_H)
     
-def screenToMatrix(x, y)
+def screenToMatrix(x, y) :
     return (x//SPRITE_W, y//SPRITE_H)
     
 def arrayToScreen(pos) :
