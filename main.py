@@ -9,8 +9,8 @@ from monster import Monster
 from bomberman import Bomberman
 
 def debug(scenario):
-    for i in range(0, SCENARIO_H) :
-        for j in range(0, SCENARIO_W) :
+    for j in range(0, SCENARIO_H) :
+        for i in range(0, SCENARIO_W) :
             print scenario.virtual_map[matrixToArray(i, j)],
         print '\n'
  
