@@ -25,13 +25,13 @@ class Map :
         i = 0
         while i < len(self.__map) :
             if self.__map[i] == 0 :
-                self.__map[i] = 2 #DESTR_BOX
+                self.__map[i] = DESTR_BOX
             i += 1
 
         r = random.Random()
         for i in range(0,6) :
             pos = int(r.random() * 10000) % len(self.__map)
-            self.__map[pos] = 0 #GROUND
+            self.__map[pos] = GROUND
             
         
     def __loadBackground__(self) :
@@ -56,6 +56,10 @@ class Map :
         
         for i in range(0, 16) :
             pygame.draw.line(surface, pygame.Color(0, 0, 0, 0), (0, i*SPRITE_H), (SCREEN_W, i*SPRITE_H), 1)           
+            
+    def getMap(self):
+        '''Retorna uma cópia do mapa'''
+        return self.__map[:]
         
     def paint(self,screen,draw_grid=False) :
         '''Exibe na tela as imagens do mapa'''

@@ -48,7 +48,7 @@ class Item :
         
         
         
-class ItemVelocidade(Item) :
+class ItemVelocity(Item) :
     '''Define um item que aumenta a velocidade do Bomberman por um certo tempo'''
     boost = 2
     def __init__(self,position) :

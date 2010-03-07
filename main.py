@@ -16,11 +16,7 @@ def main() :
     clock = pygame.time.Clock()
 
     scenario = Scenario('Map01')
-    monsters = [Monster('Monster04',(192,192))]
     bomberman = Bomberman()
-    
-    #scenario.freeMap_Monsters(monsters)
-    #scenario.freeMap_Bomberman(bomberman)
 
     while True :
 
@@ -32,7 +28,7 @@ def main() :
         
         scenario.paint(screen,draw_grid=True)
         
-        for monster in monsters :
+        for monster in scenario.monsters :
             monster.move()
             monster.paint(screen)
         

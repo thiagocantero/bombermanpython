@@ -70,7 +70,6 @@ class Monster :
             
         self.screen_position = (x,y)
         
-        
     def move(self) :
         '''Movimenta o monstro'''
         if self.direction == U :
@@ -84,7 +83,7 @@ class Monster :
                 
         elif self.direction == L :
             self.__updateAttr__(AXIS_X, -1)
-        
+            
     def paint(self,screen) :
         '''Desenha na tela o monstro'''
         screen.blit(self.sprites[self.direction][self.index_sprite],self.screen_position)
