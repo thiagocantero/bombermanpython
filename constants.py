@@ -46,3 +46,12 @@ def matrixToScreen(x, y) :
     
 def screenToMatrix(x, y)
     return (x//SPRITE_W, y//SPRITE_H)
+    
+def arrayToScreen(pos) :
+    x, y = arrayToMatrix(pos)
+    return matrixToScreen(x, y)
+    
+def screenToArray(x, y) :
+    screenToMatrix(x, y)
+    return matrixToArray(x, y)    
+    
