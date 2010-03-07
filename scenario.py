@@ -41,7 +41,7 @@ class Scenario :
                 
                 for (x_route, y_route) in pos_route :
                     try:
-                        pos = y_route * SCENARIO_W + x_route
+                        pos = matrixToArray(x_route,y_route)
                         if self.virtual_map[pos] == UNDEST_BOX :
                             raise Exception()
                         elif self.virtual_map[pos] == MONSTER :
@@ -56,7 +56,7 @@ class Scenario :
                     self.virtual_map[pos_monster] = MONSTER
                     self.map.destroyBox(pos_monster)
                     for (x_route, y_route) in pos_route :
-                        pos = y_route * SCENARIO_W + x_route
+                        pos = matrixToArray(x_route,y_route)
                         self.virtual_map[pos] = MONSTER_ROUTE
                         self.map.destroyBox(pos)
 
