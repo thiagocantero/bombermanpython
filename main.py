@@ -10,6 +10,9 @@ from bomberman import Bomberman
 
 def debug(scenario):
     for j in range(0, SCENARIO_H) :
+        print '-',
+    print '\n'
+    for j in range(0, SCENARIO_H) :
         for i in range(0, SCENARIO_W) :
             print scenario.virtual_map[matrixToArray(i, j)],
         print '\n'

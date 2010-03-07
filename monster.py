@@ -8,7 +8,7 @@ MONSTERS['Monster04'] = {'sprites':('imagem/monsters/monster02.png',(4,6,4,6)),'
 
 class Monster :
     '''Define um monstro'''
-    def __init__(self,monster_name,screen_position=(0,0)):
+    def __init__(self,scenario,monster_name,screen_position=(0,0)):
         '''Construtor da classe monstro'''
         self.__sprites = MONSTERS[monster_name]['sprites']
         self.__moviments = MONSTERS[monster_name]['moviments']
@@ -21,6 +21,7 @@ class Monster :
         self.index_sprite = 0
         self.screen_position = screen_position
         self.is_moving = True
+        self.scenario = scenario
         self.constant = MONSTER
 
     def __loadSprites__(self) :
@@ -73,17 +74,31 @@ class Monster :
         
     def process(self) :
         '''Movimenta o monstro'''
-        if self.direction == U :
-            self.__updateAttr__(AXIS_Y, -1)
-                
-        elif self.direction == R :
-            self.__updateAttr__(AXIS_X, 1)
-                            
-        elif self.direction == D :
-            self.__updateAttr__(AXIS_Y, 1)
-                
-        elif self.direction == L :
-            self.__updateAttr__(AXIS_X, -1)
+        if self.is_moving:
+            if self.direction == U :
+                self.__updateAttr__(AXIS_Y, -1)
+                    
+            elif self.direction == R :
+                self.__updateAttr__(AXIS_X, 1)
+                                
+            elif self.direction == D :
+                self.__updateAttr__(AXIS_Y, 1)
+                    
+            elif self.direction == L :
+                self.__updateAttr__(AXIS_X, -1)
+        else:
+            if self.direction == U and self.scenario.canMove(U,self):
+                self.is_moving = True
+                self.__updateAttr__(AXIS_Y, -1)
+            elif self.direction == D and self.scenario.canMove(D,self):
+                self.is_moving = True
+                self.__updateAttr__(AXIS_Y, 1)
+            elif self.direction == R and self.scenario.canMove(R,self):
+                self.is_moving = True
+                self.__updateAttr__(AXIS_X, 1)
+            elif self.direction == L and self.scenario.canMove(L,self):
+                self.is_moving = True
+                self.__updateAttr__(AXIS_X, -1)
             
     def paint(self,screen) :
         '''Desenha na tela o monstro'''

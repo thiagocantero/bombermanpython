@@ -33,7 +33,7 @@ class Scenario :
                 pos_monster = None
                 pos_route = list()
                 
-                m = Monster('Monster01',(x*SPRITE_W, y*SPRITE_H))
+                m = Monster(self,'Monster01',(x*SPRITE_W, y*SPRITE_H))
                 pos_monster = y * SCENARIO_W + x
                 pos_route = m.makeRoute(x,y)
                 
@@ -109,9 +109,9 @@ class Scenario :
     
         array_pos_new = matrixToArray(matrix_pos_new[0],matrix_pos_new[1])
         
-        print "I'm in: ","(",matrix_pos_current[0],",",matrix_pos_current[1],")"
-        print "I'm going to: ","(",matrix_pos_new[0],",",matrix_pos_new[1],")"
-        print "There's a ",self.virtual_map[array_pos_new]
+        #print "I'm in: ","(",matrix_pos_current[0],",",matrix_pos_current[1],")"
+        #print "I'm going to: ","(",matrix_pos_new[0],",",matrix_pos_new[1],")"
+        #print "There's a ",self.virtual_map[array_pos_new]
         
         allow = False
         if self.virtual_map[array_pos_new] == GROUND or self.virtual_map[array_pos_new] == MONSTER_ROUTE:
