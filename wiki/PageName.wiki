@@ -1,0 +1,11 @@
+Starting the game
+
+= Introduction =
+
+Download the latest source code and run main.py
+*Note*: You have to install pygame module first, to compile the code
+
+
+= Details =
+
+You cam move bomberman with arrows
