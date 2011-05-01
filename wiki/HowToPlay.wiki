@@ -1,12 +1,10 @@
 #labels Phase-Deploy
-Starting the game
+= Starting the game =
 
-= Introduction =
+== Introduction ==
+Download the latest code and run _main.py_<br />
+*Note*: You have to install <a href="http://www.pygame.org/download.shtml">pygame</a> module first, to compile the code
+<br />
 
-Download the latest code and run main.py<br />
-*Note*: You have to install pygame module first, to compile the code
-
-
-= Details =
-
+== Details ==
 You cam move bomberman with arrows
