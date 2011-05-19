@@ -6,8 +6,8 @@ class Map(object):
     
     def __init__(self, map, width, height, dblocks={}, rewards={}, forbidden_positions_dblocks=[]):
         self.__map = map[:]
-        self.__width = width
-        self.__height = height
+        self._width = width
+        self._height = height
         self.__dblocks = dblocks.copy()
         self.__rewards = rewards.copy()
         self.__forbidden_positions_dblocks = [self.__convert_position(x, y) for x, y in forbidden_positions_dblocks[:]]
@@ -88,17 +88,20 @@ class Map(object):
         return element == None
         
     def destroy_dblock(self, row, col):
-        if has_dblock(self, row, col):
+        if self.has_dblock(row, col):
             pos = self.__convert_position(row, col)
-            self.__map[pos][0] = None
+            if self.has_reward(row, col):
+                self.__map[pos] = (None, self.__map[pos][1])
+            else:
+                self.__map[pos] = None
             
     def destroy_reward(self, row, col):
-        if has_reward(self, row, col):
+        if self.has_reward(row, col):
             pos = self.__convert_position(row, col)
             self.__map[pos] = None
             
     def get_reward(self, row, col):
-        if has_reward(self, row, col):
+        if self.has_reward(row, col):
             pos = self.__convert_position(row, col)
             reward = self.__map[pos][1]
             self.__map[pos] = None
@@ -109,25 +112,20 @@ class Map(object):
         return self.map[i]
         
     def __convert_position(self, row, col):
-        return row * self.__width + col
+        return row * self._width + col
+        
+    def insideBounds(self, row, col):
+        if 0 > row or row > self._height :
+            return False
+        if 0 > col or col > self._width :
+            return False
+        return True
         
     def get_map(self):
         return self.__map
         
     def __set_map(self, other):
         self.__map = other
-        
-    def get_width(self):
-        return self.__width
-        
-    def __set_width(self, other):
-        self.__width = other
-        
-    def get_height(self):
-        return self.__height
-        
-    def __set_height(self, other):
-        self.__height = other
         
     def get_dblocks(self):
         return self.__dblocks
@@ -148,8 +146,6 @@ class Map(object):
         self.__forbidden_positions_dblocks = other
         
     map = property(get_map)
-    width = property(get_width)
-    height = property(get_height)
     dblocks = property(get_dblocks)
     rewards = property(get_rewards)
     forbidden_positions_dblocks = property(get_forbidden_positions_dblocks)
@@ -186,8 +182,8 @@ class PygameMap(Map):
         self.__screen.blit(tile, (x,y))
         
     def draw(self):           
-        for i in xrange(0, self.height):
-            for j in xrange(0, self.width):
+        for i in xrange(0, self._height):
+            for j in xrange(0, self._width):
                 element = super(PygameMap, self).element_at_position(i, j)
                 if isinstance(element, int):
                     image = self.__ublock_image[element]
