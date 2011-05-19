@@ -37,6 +37,8 @@ while done == False:
                 world.player.change_direction(world.player.RIGHT)
             elif event.key == pygame.K_LEFT:
                 world.player.change_direction(world.player.LEFT)
+            elif event.key == pygame.K_b:
+                world.place_bomb()
                 
     # make things happen
     world.run()
