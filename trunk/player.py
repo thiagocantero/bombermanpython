@@ -17,6 +17,8 @@ class Player(object):
         # direction of movement
         self.direction = (1, 0)
         
+        self.max_bombs = 1
+        
         # speed
         self.speed = (4, 4)
         
@@ -110,4 +112,5 @@ class PygamePlayer(Player):
     def draw(self):
         tile = self.tiles[self.direction][self.current_tile]
         self.__screen.blit(tile, self.__screen_position)
+        
         
