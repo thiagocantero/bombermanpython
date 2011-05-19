@@ -11,9 +11,11 @@ class Player(object):
         self._walking = False
         
         # virtual position
+        self.__start_position = position
         self.position = position
         
         # direction of movement
+        self.__start_direction = direction
         self._direction = direction
         
         self.__bombs = 0
@@ -21,6 +23,14 @@ class Player(object):
         
         # speed
         self._speed = (4, 4)
+        
+    def is_alive(self):
+        return self.life > 0
+        
+    def _reset(self):
+        self.life -= 1
+        self.position = self.__start_position
+        self._direction = self.__start_direction
         
     def explode_bomb(self):
         self.__bombs -= 1
@@ -74,6 +84,10 @@ class PygamePlayer(Player):
         self.__tiles[self.LEFT] = self.__load_image(self.__tiles_per_direction * 3)
         
         self.__current_tile = 0
+        
+    def reset(self):
+        super(PygamePlayer, self)._reset()
+        self.__screen_position = (self.position[0] * self.__tiles_width, self.position[1] * self.__tiles_height)
         
     def walk(self):
         if not self._walking:
