@@ -72,6 +72,10 @@ class PygameWorld(World):
         for bomb in self.__bombs:
             if bomb.startExplosion():
                 bomb.explode_positions = self.__explode_place(bomb.position, 0, bomb.range) + self.__explode_place(bomb.position, 1, bomb.range) + self.__explode_place(bomb.position, 2, bomb.range) + self.__explode_place(bomb.position, 3, bomb.range)
+
+                for col, row, direction in bomb.explode_positions:
+                    if self.player.position == (col, row):
+                        self.player.reset()
                 
             if bomb.finishExplosion():
                 self.player.explode_bomb()
