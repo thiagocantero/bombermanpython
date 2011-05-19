@@ -4,9 +4,13 @@
 
 class Bomb(object):
     
+    EXPLOSION_DURATION = 500
+    TIME_TO_EXPLODE = 2000
+    
     def __init__(self, position, range):
         self.position = position
         self.range = range
+        self.explode_positions = []
 
 import pygame
 class PygameBombModel:
@@ -15,7 +19,7 @@ class PygameBombModel:
         self.__bomb_image = pygame.image.load(bomb_image).convert_alpha()        
         self.__explosion_image = pygame.image.load(explosion_image).convert_alpha()        
         
-        self.tiles=1
+        self.tiles = tiles
         self.tiles_per_direction = tiles_per_direction
         self.tiles_width = tiles_width
         self.tiles_height = tiles_height
@@ -54,21 +58,34 @@ class PygameBomb(Bomb):
     READY_TO_EXPLODE    =   1
     WAITING_ACTIVATION  =   2
     EXPLODING           =   3
+    EXPLODED            =   4
     
     def __init__(self, screen, model, position, range):
         super(PygameBomb, self).__init__(position, range)
         self.__screen = screen
-        self.__screen_position = (position[0] * model.tiles_width, position[1] * model.tiles_height)
         self.__model = model
+        self.__screen_position = (position[0] * self.__model.tiles_width, position[1] * self.__model.tiles_height)
         
         self.__status = self.READY_TO_EXPLODE
         self.__current_tile = 0
         
-    def __change_status(self):
-        # TODO acrescentar o modo de controle remoto
-        if self.__status == self.READY_TO_EXPLODE:
-            self.__status = self.EXPLODING
-            self.__current_tile = 0
+        self.__explosion_duration = 500
+        self.__time_set = pygame.time.get_ticks()
+        
+    def startExplosion(self):
+        if self.__canStartExplosion():
+            if self.__status == self.READY_TO_EXPLODE:
+                self.__status = self.EXPLODING
+                self.__time_set = pygame.time.get_ticks()
+                return True
+        return False
+    
+    def finishExplosion(self):
+        if self.__canFinishExplosion():
+            if self.__status == self.EXPLODING:
+                self.__status = self.EXPLODED
+                return True
+        return False
         
     def draw(self):
         # TODO acrescentar o modo de controle remoto
@@ -76,3 +93,20 @@ class PygameBomb(Bomb):
             tile = self.__model.bomb_tiles[self.__current_tile]
             self.__current_tile = (self.__current_tile + 1) % self.__model.tiles
             self.__screen.blit(tile, self.__screen_position)
+            
+        elif self.__status == self.EXPLODING:
+            #tile central
+            tile = self.__model.explosion_tiles[4][0]
+            self.__screen.blit(tile, self.__screen_position)
+            
+            #tiles extras
+            for col, row, direction in self.explode_positions:
+                tile = self.__model.explosion_tiles[direction][0]
+                self.__screen.blit(tile, (col * self.__model.tiles_width, row * self.__model.tiles_height))
+                
+    def __canStartExplosion(self):
+        return pygame.time.get_ticks() - self.__time_set >= self.TIME_TO_EXPLODE
+        
+    def __canFinishExplosion(self):
+        return pygame.time.get_ticks() - self.__time_set >= self.EXPLOSION_DURATION
+            
